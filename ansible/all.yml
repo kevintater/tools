@@ -1,0 +1,13 @@
+# file site.yml                                                                     
+# This playbook deploys everything                                                
+---                                                                                 
+- hosts: all                                                                        
+  become: yes                                                                       
+  roles:                                                                            
+    - role: common                                                   
+                                                                                    
+# A *servers role can be specified here...                                          
+- hosts: vpnservers                                                               
+  become: yes                                                                       
+  roles:                                                                            
+    - role: openvpn                                                              
