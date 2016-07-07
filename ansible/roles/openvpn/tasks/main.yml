@@ -8,7 +8,7 @@
 - name: ensure openvpn folder exists                                                
   file: dest=/etc/openvpn                                                           
         state=directory                                                             
-        owner=root group=ehit-sa-team mode=0775                                     
+        owner=root mode=0775                                     
 #^^^must be world readable                                                          
                                                                                     
 - name: ensure ccd folder exists                                                    
@@ -25,7 +25,7 @@
     - server.crt                                                                    
     - server.key.enc                                                                
     - dh2048.pem                                                                    
-    #- crl.pem <--copy up by hand initially. See README.md for details.             
+    #- crl.pem <--copy up by hand initially.
   notify:                                                                           
     - restart openvpn                                                               
                                                                                     
@@ -47,27 +47,7 @@
     - openvpn.conf
   notify:                                                                           
     - restart openvpn                                                            
-                                                                                 
-- name: openvpn pam config items                                                 
-  copy: src={{ inventory_hostname }}/{{ item }}                                  
-        dest=/etc/pam.d/                                                         
-        owner=root group=root mode=0644                                          
-  with_items:                                                                    
-    - openvpn                                                                    
-  notify:                                                                        
-    - restart openvpn                                                            
-  when: ansible_hostname == "rainbowbrite"                                       
-                                                                                 
-- name: pam ldap config items                                                    
-  copy: src={{ inventory_hostname }}/{{ item }}                                  
-        dest=/etc/                                                               
-        owner=root group=root mode=0644                                          
-  with_items:                                                                    
-    - ldap_openvpn.conf                                                          
-  notify:                                                                        
-    - restart openvp                                                             
-  when: ansible_hostname == "rainbowbrite"                                       
-                                                                                 
+
 - name: sysctl   
   template: src=sysctl.conf.j2                                                   
         dest=/etc/sysctl.conf                                                    
